@@ -27,8 +27,8 @@ const Gallery = () => {
       <div className="gallery-hero">
         <div className="gallery-hero-overlay" />
         <div className="container">
-          <h1>أعمال الشركة</h1>
-          <p>صور وفيديوهات من أعمال ومشاريع S.A.M.A Group</p>
+          <h1>اوراق الشركة</h1>
+          <p>صور المستندات الخاصة بشركة S.A.M.A</p>
         </div>
       </div>
 
