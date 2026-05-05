@@ -114,7 +114,7 @@ const Home = () => {
               <div className="gold-line" />
               <h2 className="section-title">عن S.A.M.A Group</h2>
               <p className="about-text">
-                مجموعة سما هي شركة رائدة في مجال الاستثمار العقاري، تأسست على يد المهندس <strong>ممدوح شيكون</strong>
+                مجموعة سما هي شركة رائدة في مجال الاستثمار العقاري، تأسست على يد المهندس <strong>ممدوح شيخون</strong>
                 برؤية واضحة وهدف محدد: تقديم أفضل الفرص الاستثمارية العقارية بجودة عالية وخدمة متميزة.
               </p>
               <p className="about-text">
