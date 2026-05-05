@@ -27,14 +27,69 @@
 }
 
 .navbar-logo img {
-  height: 60px;
+  height: 80px;
   width: auto;
   filter: drop-shadow(0 0 10px rgba(243, 156, 18, 0.3));
   transition: all 0.3s ease;
 }
 
 .navbar.scrolled .navbar-logo img {
-  height: 48px;
+  height: 64px;
+}
+
+/* Settings toggles */
+.nav-settings {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 12px;
+}
+
+html[dir="ltr"] .nav-settings {
+  margin-right: 0;
+  margin-left: 12px;
+}
+
+.nav-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(243, 156, 18, 0.1);
+  border: 1px solid rgba(243, 156, 18, 0.25);
+  color: #F39C12;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0;
+  font-family: 'Cairo', sans-serif;
+}
+
+.nav-toggle-btn:hover {
+  background: rgba(243, 156, 18, 0.2);
+  border-color: rgba(243, 156, 18, 0.5);
+  transform: scale(1.05);
+}
+
+html.light .nav-toggle-btn {
+  background: rgba(243, 156, 18, 0.08);
+  border-color: rgba(243, 156, 18, 0.2);
+}
+
+@media (max-width: 768px) {
+  .nav-settings {
+    margin-right: 8px;
+  }
+  html[dir="ltr"] .nav-settings {
+    margin-left: 8px;
+  }
+  .nav-toggle-btn {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 .navbar-logo:hover img {

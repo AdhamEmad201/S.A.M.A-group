@@ -2,49 +2,38 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { projectsAPI } from '../services/api';
 import ProjectCard from '../components/ProjectCard';
+import { useSettings } from '../context/SettingsContext';
 import './Home.css';
 
-const stats = [
-  { num: '15+', label: 'مشروع منجز' },
-  { num: '14+', label: 'سنة خبرة' },
-  { num: '200+', label: 'عميل' },
-  { num: '10+', label: 'مدن' },
-];
-
-const services = [
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
-    ),
-    title: 'بيع وشراء العقارات',
-    desc: 'نقدم أفضل الفرص العقارية بأسعار تنافسية مع ضمان الجودة والموقع المتميز.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-    ),
-    title: 'الاستثمار العقاري',
-    desc: 'استثمر أموالك بذكاء مع خبرتنا في تحليل السوق وتحديد الفرص الاستثمارية المناسبة.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>
-    ),
-    title: 'الاستشارات العقارية',
-    desc: 'فريق من الخبراء لتقديم استشارات متخصصة تساعدك على اتخاذ القرار الصحيح.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
-    ),
-    title: 'إدارة العقارات',
-    desc: 'ندير عقاراتك باحترافية لضمان أعلى عائد استثماري مع راحة بال تامة.',
-  },
+const serviceIcons = [
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>,
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>,
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>,
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>,
 ];
 
 const Home = () => {
   const [featuredProjects, setFeaturedProjects] = useState([]);
-  const [loadingProjects, setLoadingProjects] = useState(true);
+  const [loadingProjects, setLoadingProjects]   = useState(true);
+  const { t } = useSettings();
+
+  const stats = [
+    { num: '150+', label: t('completedProjects') },
+    { num: '12+',  label: t('yearsExperience') },
+    { num: '500+', label: t('happyClients') },
+    { num: '10+',  label: t('cities') },
+  ];
+
+  const services = [
+    { icon: serviceIcons[0], title: t('svc1Title'), desc: t('svc1Desc') },
+    { icon: serviceIcons[1], title: t('svc2Title'), desc: t('svc2Desc') },
+    { icon: serviceIcons[2], title: t('svc3Title'), desc: t('svc3Desc') },
+    { icon: serviceIcons[3], title: t('svc4Title'), desc: t('svc4Desc') },
+  ];
+
+  const aboutFeatures = [
+    t('aboutFeature1'), t('aboutFeature2'), t('aboutFeature3'), t('aboutFeature4'),
+  ];
 
   useEffect(() => {
     projectsAPI.getAll({ featured: true })
@@ -63,18 +52,16 @@ const Home = () => {
         <div className="hero-content">
           <div className="hero-badge">S.A.M.A Group</div>
           <h1 className="hero-title">
-            <span>استثمر بثقة</span>
-            <span className="hero-title-gold">في أفضل العقارات</span>
+            <span>{t('heroTitle1')}</span>
+            <span className="hero-title-gold">{t('heroTitle2')}</span>
           </h1>
-          <p className="hero-subtitle">
-            Mamdouh Shaykoon Investment — شريكك الموثوق في عالم الاستثمار العقاري منذ أكثر من 12 عاماً
-          </p>
+          <p className="hero-subtitle">{t('heroSubtitle')}</p>
           <div className="hero-actions">
             <Link to="/projects" className="btn btn-gold">
-              استعرض مشاريعنا
+              {t('viewProjects')}
             </Link>
             <a href="#about" className="btn btn-outline">
-              تعرف علينا
+              {t('learnMore')}
             </a>
           </div>
         </div>
@@ -107,24 +94,16 @@ const Home = () => {
               </div>
               <div className="about-badge-float">
                 <span className="about-badge-num">12+</span>
-                <span className="about-badge-txt">سنة خبرة</span>
+                <span className="about-badge-txt">{t('yearsExperience')}</span>
               </div>
             </div>
             <div className="about-content">
               <div className="gold-line" />
-              <h2 className="section-title">عن S.A.M.A Group</h2>
-              <p className="about-text">
-                    مجموعة سما هي شركة رائدة في مجال الاستثمار العقاري، تأسست على يد المهندس{" "}
-                    <strong>ممدوح شيخون</strong>{" "}
-                    برؤية واضحة وهدف محدد: تقديم أفضل الفرص الاستثمارية العقارية بجودة عالية وخدمة متميزة.
-                  </p>
-
-              <p className="about-text">
-                على مدار أكثر من 12 عاماً، نجحنا في تطوير وتسويق مئات المشاريع العقارية المتنوعة،
-                من الوحدات السكنية الفاخرة إلى المجمعات التجارية المتكاملة.
-              </p>
+              <h2 className="section-title">{t('aboutTitle')}</h2>
+              <p className="about-text">{t('aboutP1')}</p>
+              <p className="about-text">{t('aboutP2')}</p>
               <div className="about-features">
-                {['خبرة واسعة في السوق', 'فريق متخصص ومحترف', 'شفافية تامة في التعاملات', 'دعم ما بعد البيع'].map((f, i) => (
+                {aboutFeatures.map((f, i) => (
                   <div key={i} className="about-feature">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
                     <span>{f}</span>
@@ -132,7 +111,7 @@ const Home = () => {
                 ))}
               </div>
               <Link to="/projects" className="btn btn-gold" style={{ marginTop: '20px' }}>
-                مشاريعنا
+                {t('projects')}
               </Link>
             </div>
           </div>
@@ -144,10 +123,8 @@ const Home = () => {
         <div className="container">
           <div className="section-header">
             <div className="gold-line center" />
-            <h2 className="section-title" style={{ textAlign: 'center' }}>خدماتنا</h2>
-            <p className="section-subtitle" style={{ textAlign: 'center' }}>
-              نقدم مجموعة متكاملة من الخدمات العقارية لتلبية جميع احتياجاتك
-            </p>
+            <h2 className="section-title" style={{ textAlign: 'center' }}>{t('servicesTitle')}</h2>
+            <p className="section-subtitle" style={{ textAlign: 'center' }}>{t('servicesSubtitle')}</p>
           </div>
           <div className="services-grid">
             {services.map((s, i) => (
@@ -167,11 +144,11 @@ const Home = () => {
           <div className="section-header-row">
             <div>
               <div className="gold-line" />
-              <h2 className="section-title">المشاريع المميزة</h2>
-              <p className="section-subtitle">اختيارات حصرية من أفضل مشاريعنا</p>
+              <h2 className="section-title">{t('featuredTitle')}</h2>
+              <p className="section-subtitle">{t('featuredSubtitle')}</p>
             </div>
             <Link to="/projects" className="btn btn-outline">
-              عرض الكل
+              {t('viewAll')}
             </Link>
           </div>
 
@@ -187,7 +164,7 @@ const Home = () => {
             </div>
           ) : (
             <div className="empty-state">
-              <p>سيتم إضافة المشاريع قريباً</p>
+              <p>{t('noProjectsYet')}</p>
             </div>
           )}
         </div>
@@ -197,10 +174,10 @@ const Home = () => {
       <section className="cta-section">
         <div className="cta-overlay" />
         <div className="container cta-content">
-          <h2>هل أنت مستعد للاستثمار؟</h2>
-          <p>تواصل معنا اليوم واكتشف أفضل الفرص العقارية المتاحة</p>
+          <h2>{t('ctaTitle')}</h2>
+          <p>{t('ctaSubtitle')}</p>
           <a href="#contact" className="btn btn-gold">
-            تواصل معنا الآن
+            {t('contactNow')}
           </a>
         </div>
       </section>

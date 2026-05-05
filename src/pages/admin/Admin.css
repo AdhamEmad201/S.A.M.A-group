@@ -1085,3 +1085,25 @@
   font-size: 0.82rem;
   line-height: 1.5;
 }
+
+/* -- Topbar toggle buttons (reuse nav-toggle-btn style) -- */
+.admin-topbar .nav-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(243, 156, 18, 0.1);
+  border: 1px solid rgba(243, 156, 18, 0.25);
+  color: #F39C12;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Cairo', sans-serif;
+}
+.admin-topbar .nav-toggle-btn:hover {
+  background: rgba(243, 156, 18, 0.2);
+  border-color: rgba(243, 156, 18, 0.5);
+}

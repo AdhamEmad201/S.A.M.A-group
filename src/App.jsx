@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
+import { SettingsProvider } from './context/SettingsContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
@@ -26,6 +27,7 @@ const PublicLayout = ({ children }) => (
 
 function App() {
   return (
+    <SettingsProvider>
     <AuthProvider>
       <BrowserRouter>
         <Toaster
@@ -58,6 +60,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+    </SettingsProvider>
   );
 }
 

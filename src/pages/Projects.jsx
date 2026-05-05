@@ -1,18 +1,31 @@
 import { useState, useEffect } from 'react';
 import { projectsAPI } from '../services/api';
 import ProjectCard from '../components/ProjectCard';
+import { useSettings } from '../context/SettingsContext';
 import './Projects.css';
 
-const categories = ['الكل', 'عقارات', 'سكني', 'تجاري', 'صناعي'];
-const statuses = ['الكل', 'متاح', 'قيد الإنشاء', 'مباع'];
+// Arabic values used in Firestore
+const CATEGORY_VALUES = ['الكل', 'عقارات', 'سكني', 'تجاري', 'صناعي'];
+const STATUS_VALUES   = ['الكل', 'متاح', 'قيد الإنشاء', 'مباع'];
 
 const Projects = () => {
-  const [projects, setProjects] = useState([]);
-  const [filtered, setFiltered] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [projects, setProjects]         = useState([]);
+  const [filtered, setFiltered]         = useState([]);
+  const [loading, setLoading]           = useState(true);
   const [activeCategory, setActiveCategory] = useState('الكل');
-  const [activeStatus, setActiveStatus] = useState('الكل');
-  const [search, setSearch] = useState('');
+  const [activeStatus, setActiveStatus]     = useState('الكل');
+  const [search, setSearch]             = useState('');
+  const { t } = useSettings();
+
+  // Labels shown in UI for each value
+  const categoryLabels = {
+    'الكل': t('catAll'), 'عقارات': t('catRealEstate'), 'سكني': t('catResidential'),
+    'تجاري': t('catCommercial'), 'صناعي': t('catIndustrial'),
+  };
+  const statusLabels = {
+    'الكل': t('statusAll'), 'متاح': t('statusAvailable'),
+    'قيد الإنشاء': t('statusBuilding'), 'مباع': t('statusSold'),
+  };
 
   useEffect(() => {
     projectsAPI.getAll()
@@ -24,8 +37,13 @@ const Projects = () => {
   useEffect(() => {
     let result = [...projects];
     if (activeCategory !== 'الكل') result = result.filter((p) => p.category === activeCategory);
-    if (activeStatus !== 'الكل') result = result.filter((p) => p.status === activeStatus);
-    if (search.trim()) result = result.filter((p) => p.title.includes(search) || p.description.includes(search) || (p.location && p.location.includes(search)));
+    if (activeStatus !== 'الكل')   result = result.filter((p) => p.status === activeStatus);
+    if (search.trim())
+      result = result.filter((p) =>
+        p.title.toLowerCase().includes(search.toLowerCase()) ||
+        p.description.toLowerCase().includes(search.toLowerCase()) ||
+        (p.location && p.location.toLowerCase().includes(search.toLowerCase()))
+      );
     setFiltered(result);
   }, [activeCategory, activeStatus, search, projects]);
 
@@ -34,8 +52,8 @@ const Projects = () => {
       <div className="projects-hero">
         <div className="projects-hero-overlay" />
         <div className="container">
-          <h1>مشاريعنا</h1>
-          <p>اكتشف مجموعة متنوعة من المشاريع العقارية المتميزة</p>
+          <h1>{t('ourProjects')}</h1>
+          <p>{t('projectsSubtitle')}</p>
         </div>
       </div>
 
@@ -46,32 +64,32 @@ const Projects = () => {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
               <input
                 type="text"
-                placeholder="ابحث عن مشروع..."
+                placeholder={t('searchPlaceholder')}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
 
             <div className="filter-group">
-              {categories.map((c) => (
+              {CATEGORY_VALUES.map((c) => (
                 <button
                   key={c}
                   className={`filter-btn ${activeCategory === c ? 'active' : ''}`}
                   onClick={() => setActiveCategory(c)}
                 >
-                  {c}
+                  {categoryLabels[c]}
                 </button>
               ))}
             </div>
 
             <div className="filter-group">
-              {statuses.map((s) => (
+              {STATUS_VALUES.map((s) => (
                 <button
                   key={s}
                   className={`filter-btn ${activeStatus === s ? 'active' : ''}`}
                   onClick={() => setActiveStatus(s)}
                 >
-                  {s}
+                  {statusLabels[s]}
                 </button>
               ))}
             </div>
@@ -80,11 +98,10 @@ const Projects = () => {
           {loading ? (
             <div className="page-loader" style={{ minHeight: '400px' }}>
               <div className="spinner" />
-              <p style={{ color: '#666' }}>جاري التحميل...</p>
             </div>
           ) : filtered.length > 0 ? (
             <>
-              <p className="results-count">{filtered.length} مشروع</p>
+              <p className="results-count">{filtered.length} {t('results')}</p>
               <div className="projects-grid-full">
                 {filtered.map((p) => (
                   <ProjectCard key={p._id} project={p} />
@@ -94,10 +111,10 @@ const Projects = () => {
           ) : (
             <div className="no-results">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
-              <h3>لا توجد نتائج</h3>
-              <p>حاول تغيير معايير البحث أو الفلترة</p>
+              <h3>{t('noResults')}</h3>
+              <p>{t('noResultsHint')}</p>
               <button className="btn btn-outline" onClick={() => { setActiveCategory('الكل'); setActiveStatus('الكل'); setSearch(''); }}>
-                إعادة التعيين
+                {t('resetFilters')}
               </button>
             </div>
           )}

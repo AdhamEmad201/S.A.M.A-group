@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { galleryAPI } from '../services/api';
+import { useSettings } from '../context/SettingsContext';
 import './Gallery.css';
 
 const getYoutubeEmbed = (url) => {
@@ -8,9 +9,10 @@ const getYoutubeEmbed = (url) => {
 };
 
 const Gallery = () => {
-  const [items, setItems] = useState([]);
+  const [items, setItems]     = useState([]);
   const [loading, setLoading] = useState(true);
-  const [lightbox, setLightbox] = useState(null); // { url }
+  const [lightbox, setLightbox] = useState(null);
+  const { t } = useSettings();
 
   useEffect(() => {
     galleryAPI.getAll()
@@ -27,8 +29,8 @@ const Gallery = () => {
       <div className="gallery-hero">
         <div className="gallery-hero-overlay" />
         <div className="container">
-          <h1>اوراق الشركة</h1>
-          <p>صور المستندات الخاصة بشركة S.A.M.A</p>
+          <h1>{t('galleryTitle')}</h1>
+          <p>{t('gallerySubtitle')}</p>
         </div>
       </div>
 
@@ -44,7 +46,7 @@ const Gallery = () => {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
               </svg>
-              <p>سيتم إضافة المحتوى قريباً</p>
+              <p>{t('galleryEmpty')}</p>
             </div>
           ) : (
             <>

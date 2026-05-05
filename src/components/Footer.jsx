@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
+import { useSettings } from '../context/SettingsContext';
 import './Footer.css';
 
 const Footer = () => {
+  const { t, language } = useSettings();
+
   return (
     <footer className="footer" id="contact">
       <div className="footer-top">
@@ -9,7 +12,7 @@ const Footer = () => {
           <div className="footer-grid">
             <div className="footer-brand">
               <img src="/logo.png" alt="S.A.M.A Group" className="footer-logo" />
-              <p>شركة رائدة في مجال الاستثمار العقاري، نقدم أفضل الفرص الاستثمارية بجودة عالية وخدمة متميزة.</p>
+              <p>{t('footerDesc')}</p>
               <div className="footer-socials">
                 <a href="#" aria-label="Facebook" className="social-btn">
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
@@ -24,17 +27,17 @@ const Footer = () => {
             </div>
 
             <div className="footer-links">
-              <h4>روابط سريعة</h4>
+              <h4>{t('quickLinks')}</h4>
               <ul>
-                <li><Link to="/">الرئيسية</Link></li>
-                <li><Link to="/projects">المشاريع</Link></li>
-                <li><a href="#about">عن الشركة</a></li>
-                <li><a href="#services">خدماتنا</a></li>
+                <li><Link to="/">{t('home')}</Link></li>
+                <li><Link to="/projects">{t('projects')}</Link></li>
+                <li><a href="#about">{t('about')}</a></li>
+                <li><a href="#services">{t('services')}</a></li>
               </ul>
             </div>
 
             <div className="footer-contact">
-              <h4>تواصل معنا</h4>
+              <h4>{t('contact')}</h4>
               <div className="contact-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 5.72 5.72l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.27 16.92z" /></svg>
                 <span>+20 xxx xxx xxxx</span>
@@ -45,7 +48,7 @@ const Footer = () => {
               </div>
               <div className="contact-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
-                <span>القاهرة، مصر</span>
+                <span>{language === 'en' ? 'Cairo, Egypt' : 'القاهرة، مصر'}</span>
               </div>
             </div>
           </div>
@@ -54,7 +57,7 @@ const Footer = () => {
 
       <div className="footer-bottom">
         <div className="container">
-          <p>© {new Date().getFullYear()} S.A.M.A Group - Mamdouh Shaykoon Investment. جميع الحقوق محفوظة.</p>
+          <p>© {new Date().getFullYear()} S.A.M.A Group - Mamdouh Shaykoon Investment. {t('allRights')}.</p>
         </div>
       </div>
     </footer>

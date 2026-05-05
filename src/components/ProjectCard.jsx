@@ -1,10 +1,18 @@
 import { Link } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
+import { useSettings } from '../context/SettingsContext';
 import './ProjectCard.css';
+
+const statusMap = {
+  'متاح':        'badge-available',
+  'مباع':        'badge-sold',
+  'قيد الإنشاء': 'badge-building',
+};
 
 const ProjectCard = ({ project }) => {
   const [visible, setVisible] = useState(false);
   const cardRef = useRef(null);
+  const { t } = useSettings();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -15,39 +23,27 @@ const ProjectCard = ({ project }) => {
     return () => observer.disconnect();
   }, []);
 
-  const statusMap = {
-    'متاح': { cls: 'badge-available', label: 'متاح' },
-    'مباع': { cls: 'badge-sold', label: 'مباع' },
-    'قيد الإنشاء': { cls: 'badge-building', label: 'قيد الإنشاء' },
-  };
-
-  const statusInfo = statusMap[project.status] || statusMap['متاح'];
   const coverImage = project.coverImage || project.images?.[0]?.url;
 
   return (
     <div ref={cardRef} className={`project-card ${visible ? 'visible' : ''}`}>
       <Link to={`/projects/${project.slug}`} className="card-image-wrap">
         {coverImage ? (
-          <img
-            src={coverImage}
-            alt={project.title}
-            loading="lazy"
-            className="card-image"
-          />
+          <img src={coverImage} alt={project.title} loading="lazy" className="card-image" />
         ) : (
           <div className="card-image-placeholder">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
           </div>
         )}
         <div className="card-overlay">
-          <span className="view-btn">عرض المشروع ←</span>
+          <span className="view-btn">{t('viewProject')}</span>
         </div>
-        {project.featured && <span className="card-featured badge badge-featured">مميز ★</span>}
+        {project.featured && <span className="card-featured badge badge-featured">{t('badgeFeatured')}</span>}
       </Link>
 
       <div className="card-body">
         <div className="card-meta">
-          <span className={`badge ${statusInfo.cls}`}>{statusInfo.label}</span>
+          <span className={`badge ${statusMap[project.status] || 'badge-available'}`}>{project.status}</span>
           {project.category && <span className="card-category">{project.category}</span>}
         </div>
 
@@ -69,18 +65,18 @@ const ProjectCard = ({ project }) => {
             {project.images?.length > 0 && (
               <span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
-                {project.images.length} صورة
+                {project.images.length} {t('photoCount')}
               </span>
             )}
             {project.videos?.length > 0 && (
               <span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="23 7 16 12 23 17 23 7" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" /></svg>
-                {project.videos.length} فيديو
+                {project.videos.length} {t('videoCount')}
               </span>
             )}
           </div>
           <Link to={`/projects/${project.slug}`} className="card-btn">
-            التفاصيل
+            {t('details')}
           </Link>
         </div>
       </div>
