@@ -49,7 +49,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link to="/gallery" className={isActive('/gallery') ? 'active' : ''}>
-              أعمالنا
+              اوراق الشركة
             </Link>
           </li>
           <li>
