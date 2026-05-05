@@ -5,10 +5,10 @@ import ProjectCard from '../components/ProjectCard';
 import './Home.css';
 
 const stats = [
-  { num: '150+', label: 'مشروع منجز' },
-  { num: '12+', label: 'سنة خبرة' },
-  { num: '500+', label: 'عميل راضٍ' },
-  { num: '10+', label: 'مدينة' },
+  { num: '15+', label: 'مشروع منجز' },
+  { num: '14+', label: 'سنة خبرة' },
+  { num: '200+', label: 'عميل' },
+  { num: '10+', label: 'مدن' },
 ];
 
 const services = [
